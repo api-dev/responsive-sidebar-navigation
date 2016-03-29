@@ -5,7 +5,9 @@ An easy-to-integrate side, vertical navigation, ideal for dashboards and admin a
 
 [Article on CodyHouse](http://codyhouse.co/?p=881)
 
-[Demo](http://codyhouse.co/demo/responsive-sidebar-navigation/index.html)
+[Original Demo](http://codyhouse.co/demo/responsive-sidebar-navigation/index.html)
+
+[My Demo](http://plasmadesign.com.br/demos/responsive-sidebar-navigation/index.html)
  
 [Terms](http://codyhouse.co/terms/)
 
