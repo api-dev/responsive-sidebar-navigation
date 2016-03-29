@@ -124,7 +124,7 @@ Header
 -------------------------------- */
 
 .cd-main-header {
-	position: absolute;
+	position: fixed;
 	z-index: 2;
 	top: 0;
 	left: 0;
@@ -138,7 +138,7 @@ Header
 	@include font-smoothing;
 
 	@include MQ(M) {
-		position: fixed;
+		// position: fixed;
 		height: $header-height-M;
 	}
 }
@@ -324,7 +324,7 @@ Top Navigation
 	}
 }
 
-.cd-top-nav {
+.cd-top-nav {	
 	> li > a::before  {
 		/* reset style */
 		display: none;
@@ -345,7 +345,7 @@ Top Navigation
 		display: none;
 	}
 
-	@include MQ(M) {
+	@include MQ(M) {		
 		height: 100%;
 
 		a {
@@ -368,14 +368,12 @@ Top Navigation
 			padding: 1em .6em !important;
 		}
 
-		img {
-			display: block;
-		}
-	}
-
-	@include MQ(L) {
 		li:not(.has-children) a:hover {
 			color: $color-2;
+		}
+
+		img {
+			display: block;
 		}
 	}
 }
@@ -518,7 +516,7 @@ Sidebar
 
 	@include MQ(M) {		
 		top: auto;
-		width: $sidebar-width-M;
+		width: $sidebar-width-L;
 		min-height: 100vh;
 		padding: $header-height-M 0;
 		/* reset style */
@@ -541,26 +539,32 @@ Sidebar
 
 		> ul {
 			/* reset style */
-			padding: 0;
+			padding: 0.6em 0;
 		}
 
+		> ul > li:not(.action-btn):hover > a {
+      background-color: darken($color-1, 5%);
+    }
+
+    > ul > li > a {
+      padding: 1em 1em 1em 42px;
+      text-align: left;
+      border-bottom: none;
+
+      &::before {
+        @include center(y);
+        left: 18px;
+      }
+    }
+
 		.cd-label {
-			/* remove labels on minified version of the sidebar */
-			display: none;
+			display: block;
+      padding: 1em 18px;
 		}
 
 		a {
 			font-size: 1.2rem;
 			text-align: center;
-		}
-
-		> ul > li > a {
-			padding: calc(2.2em + 24px) 0 2.4em;
-
-			&::before {
-				@include center(x);
-				top: 2.4em;
-			}
 		}
 
 		.active > a {
@@ -574,69 +578,15 @@ Sidebar
 		}
 
 		.count {
-			height: 8px;
-			width: 8px;
-			border-radius: 50%;
-			box-shadow: 0 0 6px rgba(#000, .2);
-			padding: 0;
-			top: 2em;
-			@include transform(translateX(-50%));
-			left: calc(50% + 5px);
-			right: auto;
-			color: transparent;
-		}
-	}
-
-	@include MQ(L) {
-		width: $sidebar-width-L;
-
-		> ul {
-			padding: 0.6em 0;
-		}
-
-		> ul > li:not(.action-btn):hover > a {
-			background-color: darken($color-1, 5%);
-		}
-
-		> ul > li > a {
-			padding: 1em 1em 1em 42px;
-			text-align: left;
-			border-bottom: none;
-
-			&::before {
-				@include center(y);
-				left: 18px;
-			}
-		}
-
-		.cd-label {
-			display: block;
-			padding: 1em 18px;
-		}
-
-		.action-btn {
-			text-align: left;
-
-			a {
-				margin: 0 18px;
-
-				.no-touch &:hover {
-					background-color: lighten($color-2, 5%);
-				}
-			}
-		}
-
-		.count {
-			/* reset style */
 			color: $color-3;
-			height: auto;
-			width: auto;
-			border-radius: .25em;
-			padding: .2em .4em;
-			@include center(y);
-			right: 18px;
-			left: auto;
-			box-shadow: none;
+      height: auto;
+      width: auto;
+      border-radius: .25em;
+      padding: .2em .4em;
+      @include center(y);
+      right: 24px;
+      left: auto;
+      box-shadow: none;
 		}
 	}
 }
@@ -676,13 +626,15 @@ Sidebar
 			position: absolute;
 			top: 0;
 			left: 100%;
-			width: 160px;
+			width: 100%;
+      z-index: 1;
 			padding: 0;
 			box-shadow: 0 2px 10px rgba(#000, .3);
 		}
 
 		ul a {
 			text-align: left;
+			padding-left: 18px;
 			border: none;
 			padding: 1em;
 
@@ -691,9 +643,29 @@ Sidebar
 			}
 		}
 
-		> a::after { 
-			display: none;
+		> a::after { //arrow
+			display: block;
+      @include transform(rotate(270deg));
+      top: 10px;
+      right: 5px;
 		}
+
+		&.active > ul {
+      /* if the item is active, make the subnavigation visible */
+      position: relative;
+      display: block;
+      /* reset style */
+      left: 0;
+      box-shadow: none;
+    }
+
+    .no-touch .cd-side-nav &:hover > ul, 
+    .cd-side-nav &.hover > ul {
+      /* show subnavigation on hover */
+      display: block;
+      opacity: 1;
+      visibility: visible;
+    }
 
 		.cd-side-nav & {
 			&.selected > a {
@@ -713,7 +685,9 @@ Sidebar
 
 				&::after {
 					display: block;
+					top: 20px;
 					right: 1.8em;
+					@include transform(rotate(0));      		      		
 				}
 			}
 
@@ -732,32 +706,4 @@ Sidebar
 		}
 	}
 
-	@include MQ(L) {
-		
-		> ul { 
-			width: 100%;
-			z-index: 1;
-		}
-
-		ul a {
-			padding-left: 18px;
-		}
-
-		&.active > ul {
-			/* if the item is active, make the subnavigation visible */
-			position: relative;
-			display: block;
-			/* reset style */
-			left: 0;
-			box-shadow: none;
-		}
-
-		.no-touch .cd-side-nav &:hover > ul, 
-		.cd-side-nav &.hover > ul {
-			/* show subnavigation on hover */
-			display: block;
-			opacity: 1;
-			visibility: visible;
-		}
-	}
 }
