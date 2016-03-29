@@ -28,11 +28,18 @@ body {
 	color: $color-1;
 	background-color: $color-3;
 	@include clearfix;
+	overflow-x: hidden;	// When the sidebar is closed, hide Body's horizontal bar. Needs improvement.
+
 }
 
 a {
 	color: $color-2;
 	text-decoration: none;
+}
+
+p {
+	padding: 2em 0;
+	line-height: 1.8
 }
 
 input {
@@ -74,8 +81,17 @@ Main Page Content
 	@include MQ(M) {
 
 		.content-wrapper {
-			margin-left: $sidebar-width-M;
+			// margin-left: $sidebar-width-M;
 			padding-top: $header-height-M;
+
+			transition: transform 0.3s;
+			@include transform(translateX(0));
+
+			&.nav-is-visible {
+				transition: transform 0.3s;			
+				@include transform(translateX($sidebar-width-L));				
+				width: calc(100% - #{$sidebar-width-L});				
+			}
 
 			h1 {
 				padding: 4em 0;
@@ -92,7 +108,7 @@ Main Page Content
 	@include MQ(L) {
 
 		.content-wrapper {
-			margin-left: $sidebar-width-L;
+			// margin-left: $sidebar-width-L;
 		}
 
 		&::before {
@@ -128,24 +144,26 @@ Header
 }
 
 .cd-logo {
-	float: left;
+	float: right;
 	display: block;
-	margin: 11px 0 0 5%;
+	margin: 11px 11px 0 0;
 
 	img {
 		display: block;
 	}
 
 	@include MQ(M) {
-		margin: 16px 0 0 36px;
+		float: left;
+		margin: 16px 0 0 55px;
 	}
 }
 
 .cd-nav-trigger {
 	/* navigation trigger - visible on mobile devices only */
-	float: right;
-	position: relative;
+	position: absolute;
 	display: block;
+	top: 2px;
+	left: 8px;
 	width: 34px;
 	height: 44px;
 	margin-right: 5%;
@@ -158,7 +176,7 @@ Header
 		/* hamburger icon in CSS */
 		position: absolute;
 		display: inline-block;
-		height: 3px;
+		height: 1px;
 		width: 24px;
 		background: $color-3;
 	}
@@ -215,7 +233,7 @@ Header
 	}
 
 	@include MQ(M) {
-		display: none;
+		top: 6px;
 	}
 }
 
@@ -257,7 +275,7 @@ Header
 		width: 250px;
 		height: 100%;
 		// padding: 12px 0;
-		margin: 0 0 0 2.5em;
+		margin: 0 0 0 1.3em;
 
 		&.is-hidden {
 			/* reset style */
@@ -498,21 +516,23 @@ Sidebar
 		}
 	}
 
-	@include MQ(M) {
-		position: relative;
-		float: left;
+	@include MQ(M) {		
 		top: auto;
 		width: $sidebar-width-M;
 		min-height: 100vh;
-		padding-top: $header-height-M;
+		padding: $header-height-M 0;
 		/* reset style */
 		visibility: visible;
 		opacity: 1;
 		overflow: visible;
 		max-height: none;
+		transition: transform 0.3s;
+		@include transform(translateX(-$sidebar-width-L));
 
 		&.nav-is-visible {
 			box-shadow: none;
+			transition: transform 0.3s;
+			@include transform(translateX(0));
 		}
 
 		&.is-fixed {

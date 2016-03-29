@@ -1,6 +1,8 @@
 jQuery(document).ready(function(){
 	//cache DOM elements
 	var mainContent = $('.cd-main-content'),
+		body = $('body'),
+		wrapper = $('.content-wrapper'),
 		header = $('.cd-main-header'),
 		sidebar = $('.cd-side-nav'),
 		sidebarTrigger = $('.cd-nav-trigger'),
@@ -31,7 +33,7 @@ jQuery(document).ready(function(){
 	//mobile only - open sidebar when user clicks the hamburger menu
 	sidebarTrigger.on('click', function(event){
 		event.preventDefault();
-		$([sidebar, sidebarTrigger]).toggleClass('nav-is-visible');
+		$([sidebar, sidebarTrigger, wrapper, body]).toggleClass('nav-is-visible');
 	});
 
 	//click on item and show submenu
